@@ -1,0 +1,100 @@
+name: tenant-deployment
+on:
+  workflow_dispatch:
+    inputs:
+      issuer_URL:
+        description: 'OIDC Issuer URL -- include trailing backslash!!'
+        required: true
+      subscription_ID:
+        description: 'The Subscription ID (GUID)'
+        required: true
+      resource_group:
+        description: 'RG group'
+        required: true
+        default: 'dohoneytestrg'
+      tenant:
+        description: 'tenant name'
+        required: true
+      aks_cluster:
+        description: 'name of AKS cluster'
+        required: true
+        default: 'akscluster'
+      azure_region:
+        description: 'Azure Region'
+        required: true
+        default: 'westus'
+
+jobs:
+  tenant-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      - name: AZ Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.CLUSTER_SERVICE_PRINCIPAL }}
+
+      - name: Install az cli 
+        uses: ./.github/actions/install-az-cli
+ 
+      - uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ github.event.inputs.resource_group }}
+          cluster-name: ${{ github.event.inputs.aks_cluster }}
+
+      - name: Install helm
+        uses: azure/setup-helm@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+        id: Install
+
+      - name: Install azwi
+        uses: ./.github/actions/install-azwi
+
+      - name: create SP for workload identity
+        uses: ./.github/actions/create-service-principal
+        with:
+          tenant: ${{ github.event.inputs.tenant }}
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+      
+      - uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ github.event.inputs.resource_group }}
+          cluster-name: ${{ github.event.inputs.aks_cluster }}
+
+      - name: Install Workload Identity Charts and Objects
+        uses: ./.github/actions/install-helm-workload-identity
+        with:
+          subscriptionID: ${{ github.event.inputs.subscription_ID }}
+
+      - name: create Kubernetes Nodepool for tenant
+        uses: ./.github/actions/create-kubernetes-namespace-nodepool
+        with:
+          tenant: ${{ github.event.inputs.tenant }}
+          clusterName: ${{ github.event.inputs.aks_cluster }}
+          resourceGroup: ${{ github.event.inputs.resource_group }}
+ 
+      - name: create service account for workload identity
+        uses: ./.github/actions/create-sa
+        with:
+          tenant: ${{ github.event.inputs.tenant }}
+
+      - name: create federated identity for workload identity
+        uses: ./.github/actions/create-federated-identity
+        with:
+          clusterName: ${{ github.event.inputs.aks_cluster }}
+          tenant: ${{ github.event.inputs.tenant }}
+          resourceGroup: ${{ github.event.inputs.resource_group }}
+          issuer_url: ${{ github.event.inputs.issuer_URL }}
+
+      - name: grant SP role
+        uses: ./.github/actions/grant-sp-permissions
+        with:
+          resourceGroup: ${{ github.event.inputs.resource_group }}
+          tenant: ${{ github.event.inputs.tenant }}

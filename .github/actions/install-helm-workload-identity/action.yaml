@@ -1,0 +1,36 @@
+name: Install Helm Workload Identity
+description: Install Workload Identity Charts
+
+inputs:
+  subscriptionID:
+    description: 'Subscription ID of the account'
+    required: true
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Helm Charts
+      shell: bash
+      run: |
+        export NSLIST=$(kubectl get ns -o json | jq .items[].metadata.name)
+        if [[ $NSLIST == *"azure-workload-identity-system"* ]]; then
+           echo "namespace, azure-workload-identity-system is present. Nothing to be done"
+        else
+          curl -L https://github.com/a8m/envsubst/releases/download/v1.2.0/envsubst-`uname -s`-`uname -m` -o envsubst
+          chmod +x envsubst
+          mv envsubst /usr/local/bin
+
+          export AZURE_TENANT_ID=$(az account show -s ${{ inputs.subscriptionID }} --query tenantId -otsv)
+
+          helm repo add azure-workload-identity https://azure.github.io/azure-workload-identity/charts
+          helm repo update
+          helm install workload-identity-webhook azure-workload-identity/workload-identity-webhook \
+            --namespace azure-workload-identity-system \
+            --create-namespace \
+            --set azureTenantID="${AZURE_TENANT_ID}"
+
+          which envsubst
+
+          curl -sL https://github.com/Azure/azure-workload-identity/releases/download/v0.13.0/azure-wi-webhook.yaml | envsubst | kubectl apply -f - 
+        fi

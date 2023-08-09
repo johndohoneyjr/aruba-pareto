@@ -1,0 +1,47 @@
+name: Create federated identity
+description: Establish federated identity credential between the AAD application and the service account issuer & subject
+
+inputs:
+  tenant:
+    description: 'name of the tenant'
+    required: true
+  clusterName:
+    description: 'name of AKS cluster'
+    required: true
+  resourceGroup:
+    description: 'name of the clusters resource group'
+    required: true
+  issuer_url:
+    description: 'OIDC Issuer URL'
+    required: true
+  
+runs:
+  using: "composite"
+  steps:
+    - name: Create Federated Credentials
+      shell: bash
+      run: |
+        spName=${{ inputs.tenant }}-sp
+        serviceAccountName=${{ inputs.tenant }}-identity-sa
+
+        APPLICATION_CLIENT_ID="$(az ad sp list --display-name $spName --query '[0].appId' -otsv)"
+        APPLICATION_OBJECT_ID="$(az ad app show --id ${APPLICATION_CLIENT_ID} --query id -otsv)"
+        ISSUER=$(az aks show --resource-group ${{ inputs.resourceGroup }} --name ${{ inputs.clusterName }}  --query "oidcIssuerProfile.issuerUrl" -otsv)
+        ISSUERURL=${{ inputs.issuer_url }}
+        SERVICE_ACCOUNT_NAME=${{ inputs.tenant }}-identity-sa
+        SERVICE_ACCOUNT_NAMESPACE=${{ inputs.tenant }}
+
+        cat <<EOF > params.json
+        {
+         "name": "kubernetes-federated-credential",
+         "issuer": "${ISSUERURL}",
+         "subject": "system:serviceaccount:${SERVICE_ACCOUNT_NAMESPACE}:${SERVICE_ACCOUNT_NAME}",
+         "description": "Kubernetes service account federated credential",
+         "audiences": [
+           "api://AzureADTokenExchange"
+         ]
+        }
+        EOF
+
+        echo "Creating Federated Credential for application: $spName using ClientID $APPLICATION_CLIENT_ID using Object ID: $APPLICATION_OBJECT_ID"
+        az ad app federated-credential create --id ${APPLICATION_OBJECT_ID} --parameters @params.json

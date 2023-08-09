@@ -1,0 +1,24 @@
+name: Grant SP
+description: Grant Service Principal access to AML Workspace
+
+inputs:
+  resourceGroup:
+    description: 'name of resource group where workspace is to be provisioned'
+    required: true
+  tenant:
+    description: 'client ID of the service principal to recieve access'
+    required: true
+
+  
+runs:
+  using: "composite"
+  steps:
+    - name: Provision Workspace
+      shell: bash
+      run: |
+        APP_CLIENT_ID=$(az ad sp list --display-name ${{ inputs.tenant }}-sp --query '[0].appId' -otsv)
+        resourceID=$(az ml workspace show --name ${{ inputs.tenant }}-ws --resource-group ${{ inputs.resourceGroup }} --query id -otsv)
+        az role assignment create --assignee $APP_CLIENT_ID \
+        --role "AzureML Data Scientist" \
+        --scope $resourceID
+

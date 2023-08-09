@@ -1,0 +1,28 @@
+{
+    "name": "JavaScript Azure CLI and Azure Functions",
+    "dockerFile": "Dockerfile",
+    "forwardPorts": [7071],
+    "postCreateCommand": "npm install",
+    "extensions": [
+      "ms-azuretools.vscode-azurefunctions",
+      "ms-vscode.azure-account"
+    ],
+    "features": {
+      "ghcr.io/devcontainers/features/azure-cli:1": {
+        "version": "latest"
+      }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot"
+            ]
+        },
+        "codespaces": {
+            "openFiles": [
+                "codespace.md"
+            ]
+        }
+    }
+  }
+  

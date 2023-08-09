@@ -1,0 +1,12 @@
+name: Install CLI
+description: Install and Configure Azure CLI
+
+runs:
+  using: "composite"
+  steps:
+    - name: Attach Cluster
+      shell: bash
+      run: |
+        az extension add -n k8s-extension
+        az extension add -n ml
+          

@@ -1,0 +1,32 @@
+name: Create SA
+description: Create a Kubernetes Service Account
+
+inputs:
+  tenant:
+    description: 'name of service principal'
+    required: true
+
+  
+runs:
+  using: "composite"
+  steps:
+    - name: Set Kubernetes Service Account
+      shell: bash
+      run: |
+        spName=${{ inputs.tenant }}-sp
+        serviceAccountIdentity=${{ inputs.tenant }}-identity-sa
+
+        APPLICATION_CLIENT_ID="$(az ad sp list --display-name $spName --query '[0].appId' -otsv)"
+        echo "Setting Kubernetes Service Account for SP application = $APPLICATION_CLIENT_ID"
+
+        cat <<EOF | kubectl apply -f -
+        apiVersion: v1
+        kind: ServiceAccount
+        metadata:
+          annotations:
+            azure.workload.identity/client-id: $APPLICATION_CLIENT_ID
+          labels:
+            azure.workload.identity/use: "true"
+          name: $serviceAccountIdentity
+          namespace: ${{ inputs.tenant }}
+        EOF

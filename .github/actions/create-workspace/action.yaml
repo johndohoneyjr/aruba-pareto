@@ -1,0 +1,22 @@
+name: Provision Workspace
+description: Provision Azure Machine Learning Workspace
+
+inputs:
+  resourceGroup:
+    description: 'name of resource group where workspace is to be provisioned'
+    required: true
+  tenant:
+    description: 'name of the tenant'
+    required: true
+  location:
+    description: 'location of resource'
+    required: false
+    default: westus2
+  
+runs:
+  using: "composite"
+  steps:
+    - name: Provision Workspace
+      shell: bash
+      run: |
+        az ml workspace create --name ${{ inputs.tenant }}-ws --resource-group ${{ inputs.resourceGroup }}

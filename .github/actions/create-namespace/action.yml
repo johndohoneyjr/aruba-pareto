@@ -1,0 +1,46 @@
+name: Create Kubernetes Namespace
+description: Create Kubernetes Namespace for specified tenant in the specified resource group and K8 Cluster
+
+inputs:
+  tenant:
+    description: 'name of the tenant'
+    required: true
+  clusterName:
+    description: 'name of AKS cluster'
+    required: true
+  resourceGroup:
+    description: 'name of the clusters resource group'
+    required: true
+  
+runs:
+  using: "composite"
+  steps:
+    - name: AZ Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.CLUSTER_SERVICE_PRINCIPAL }}
+
+    - name: checkout repo
+      uses: actions/checkout@v2
+
+    - name: Install az cli 
+      uses: ./.github/actions/install-az-cli
+
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+
+    - uses: azure/aks-set-context@v3
+      with:
+        resource-group: ${{ github.event.inputs.resource_group }}
+        cluster-name: ${{ github.event.inputs.training_cluster }}
+
+    - name: Create Kubernetes Namespace 
+      run: |
+        mytenant=${{ inputs.tenant }}
+
+        sed "s/>tenant</$mytenant/g" ./manifests/ns.yml | kubectl apply -f -
+        kubectl get ns 
+
+

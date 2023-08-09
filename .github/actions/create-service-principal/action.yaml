@@ -1,0 +1,16 @@
+name: Create SP
+description: Provision Service Principal
+
+inputs:
+  tenant:
+    description: 'Name of tenant for provisioning the service principal.'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Provision Service Principal for Tenant
+      shell: bash
+      run: |
+        spName=${{ inputs.tenant }}-sp
+        az ad sp create-for-rbac --name $spName

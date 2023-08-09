@@ -1,0 +1,32 @@
+on:
+  workflow_dispatch:
+  name: Azure Pareto ARM Deployment
+  jobs:
+    build-and-deploy:
+      runs-on: ubuntu-latest
+      steps:
+
+        # Checkout code
+      - uses: actions/checkout@main
+
+        # Log into Azure
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.CLUSTER_SERVICE_PRINCIPAL }}
+          # The above way has been a problem sometimes
+          # client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          # tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          # subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+        # Deploy ARM template
+        # https://github.com/marketplace/actions/deploy-azure-resource-manager-arm-template
+      - name: Run ARM deploy
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ secrets.RESOURCE_GROUP }}
+          template: ./deployments/azuredeploy.json
+          parameters: storageAccountType=Standard_LRS
+
+        # output FOO variable from template
+      - run: echo ${{ steps.deploy.outputs.FOO }}

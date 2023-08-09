@@ -1,0 +1,24 @@
+name: Create Naamespace and Nodepool for tenant
+description: Create a Namespace and Kubernetes Nodepool
+
+inputs:
+  tenant:
+    description: 'name of service principal'
+    required: true
+  clusterName:
+    description: 'Name of Kubernetes Cluster'
+    required: true
+  resourceGroup:
+    description: 'Name of Cluster Resource Group'
+    required: true
+  
+runs:
+  using: "composite"
+  steps:
+    - name: Create Kubernetes Namespace
+      shell: bash
+      run: |
+        az aks get-credentials --resource-group ${{ inputs.resourceGroup }} --name ${{ inputs.clusterName }}
+
+        mytenant=${{ inputs.tenant }}
+        sed "s/>tenant</$mytenant/g" ./manifests/ns.yml | kubectl apply -f -
