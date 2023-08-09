@@ -4,6 +4,4 @@ This is a working repo with deployment artifacts in support of the Aruba-Pareto 
 
 A GH CodeSpace was created with Javascript, Azure CLI, and Github CoPilot enabled 
 
-![Deployment workflow](https://github.com/johndohoneyjr/aruba-pareto/github/workflows/poc-deployment.yml/badge.svg) 
-
 ![POC workflow](https://github.com/johndohoneyjr/aruba-pareto/actions/workflows/poc-deployment.yml/badge.svg)
