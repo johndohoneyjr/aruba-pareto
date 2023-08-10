@@ -20,7 +20,7 @@ command -v jq >/dev/null 2>&1 || { echo >&2 "I require jq for this script, but i
 
 if [[ -z "${SUBSCRIPTION_ID}" ]]; then
   clear
-  echo "Please set SUBSCRIPTION_ID to the account you wish to use for set up of the AKS Cluster"
+  echo "Please set SUBSCRIPTION_ID to the account you wish to use"
   exit 1
 else 
   echo "Using Subscription ID=$SUBSCRIPTION_ID for the following command set"
@@ -28,7 +28,7 @@ fi
 
 if [[ -z "${RESOURCE_GROUP}" ]]; then
   clear
-  echo "Please set RESOURCE_GROUP for the account you wish to use for set up of the AKS Cluster in"
+  echo "Please set RESOURCE_GROUP for the account you wish to use"
   exit 1
 else 
   echo "Using Resource Group =$RESOURCE_GROUP for the following commands"
@@ -36,7 +36,7 @@ fi
 
 if [[ -z "${LOCATION}" ]]; then
   clear
-  echo "Please set LOCATION for the location you wish to use for set up of the AKS Cluster in, locations availaable..."
+  echo "Please set LOCATION for the location you wish to use for set up, locations availaable..."
   az account list-locations | jq .[].metadata.pairedRegion[].name
   exit 1
 else 
@@ -45,7 +45,7 @@ fi
 
 if [[ -z "${SERVICE_PRINCIPAL_NAME}" ]]; then
   clear
-  echo "Please set SERVICE_PRINCIPAL_NAME for the account you wish to use for set up of the AKS Cluster in"
+  echo "Please set SERVICE_PRINCIPAL_NAME for the account you wish to use"
   exit 1
 else 
   echo "Using Service Principal Name = $SERVICE_PRINCIPAL_NAME for the following commands"
