@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "IotHubs_pareto_anywhere_iot_hub_connectionString": {
+            "value": null
+        },
+        "IotHubs_pareto_anywhere_iot_hub_containerName": {
+            "value": null
+        },
+        "sites_pareto_anywhere_name": {
+            "value": null
+        },
+        "IotHubs_pareto_anywhere_iot_hub_name": {
+            "value": null
+        },
+        "namespaces_pareto_anywhere_events_name": {
+            "value": null
+        },
+        "WebPubSub_pareto_anywhere_wps_name": {
+            "value": null
+        },
+        "serverfarms_ASP_paretoanywhereazure_b466_name": {
+            "value": null
+        },
+        "storageAccounts_paretoanywherestorage_name": {
+            "value": null
+        },
+        "provisioningServices_pareto_anywhere_provisioning_name": {
+            "value": null
+        }
+    }
+}
