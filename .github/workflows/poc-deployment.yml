@@ -27,7 +27,7 @@ jobs:
         subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
         resourceGroupName: ${{ secrets.RESOURCE_GROUP }}
         template: ./deployments/template.json
-        parameters: ./deployments/parameters.json
+        parameters: ./deployments/template.parameters.json
 
     # output FOO variable from template
     - run: echo ${{ steps.deploy.outputs.FOO }}
