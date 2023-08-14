@@ -619,17 +619,6 @@
             }
         },
         {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-            "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_events_name'), '/', parameters('event_hub_name'), '/$Default')]",
-            "location": "[parameters('region')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), parameters('event_hub_name'))]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
-            ],
-            "properties": {}
-        },
-        {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
             "name": "[concat(parameters('storageAccounts_name'), '/default/azure-webjobs-eventhub')]",
