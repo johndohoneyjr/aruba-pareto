@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "IotHubs_aruba_pareto_poc_iot_hub_connectionString": {
-            "type": "securestring"
+            "type": "secureString"
         },
         "IotHubs_aruba_pareto_poc_iot_hub_containerName": {
-            "type": "securestring"
+            "type": "secureString"
         },
         "sites_aruba_pareto_poc_function_name": {
             "defaultValue": "aruba-pareto-poc-function",
