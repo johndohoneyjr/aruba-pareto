@@ -25,9 +25,6 @@
         },
         "storageAccounts_name": {
             "value": null
-        },
-        "provisioningServices_name": {
-            "value": null
         }
     }
 }
