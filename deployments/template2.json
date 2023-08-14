@@ -3,42 +3,42 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "IotHubs_aruba_pareto_poc_iot_hub_connectionString": {
-            "type": "SecureString"
+            "type": "securestring"
         },
         "IotHubs_aruba_pareto_poc_iot_hub_containerName": {
-            "type": "SecureString"
+            "type": "securestring"
         },
         "sites_aruba_pareto_poc_function_name": {
             "defaultValue": "aruba-pareto-poc-function",
-            "type": "String"
+            "type": "string"
         },
         "serverfarms_ASP_arubaparetopoc_9af8_name": {
             "defaultValue": "ASP-arubaparetopoc-9af8",
-            "type": "String"
+            "type": "string"
         },
         "IotHubs_aruba_pareto_poc_iot_hub_name": {
             "defaultValue": "aruba-pareto-poc-iot-hub",
-            "type": "String"
+            "type": "string"
         },
         "storageAccounts_arubaparetopocsa_name": {
             "defaultValue": "arubaparetopocsa",
-            "type": "String"
+            "type": "string"
         },
         "namespaces_aruba_pareto_poc_events_name": {
             "defaultValue": "aruba-pareto-poc-events",
-            "type": "String"
+            "type": "string"
         },
         "components_aruba_pareto_poc_function_name": {
             "defaultValue": "aruba-pareto-poc-function",
-            "type": "String"
+            "type": "string"
         },
         "WebPubSub_aruba_pareto_poc_wps_name": {
             "defaultValue": "aruba-pareto-poc-wps",
-            "type": "String"
+            "type": "string"
         },
         "workspaces_defaultworkspace_3d858994_3a72_4e86_b278_d8bcd667aa6d_eus_externalid": {
             "defaultValue": "/subscriptions/3d858994-3a72-4e86-b278-d8bcd667aa6d/resourceGroups/defaultresourcegroup-eus/providers/microsoft.operationalinsights/workspaces/defaultworkspace-3d858994-3a72-4e86-b278-d8bcd667aa6d-eus",
-            "type": "String"
+            "type": "string"
         }
     },
     "variables": {},
