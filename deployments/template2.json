@@ -125,7 +125,7 @@
                 "provisioningState": "Succeeded",
                 "iotHubs": [
                     {
-                        "connectionString": "HostName=pareto-anywhere-iot-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=****",
+                        "connectionString": "[concat('HostName=', parameters('iot_hub_name'), '.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=****')]",
                         "location": "canadaeast"
                     }
                 ],
@@ -494,7 +494,7 @@
                 "acrUseManagedIdentityCreds": false,
                 "logsDirectorySizeLimit": 35,
                 "detailedErrorLoggingEnabled": false,
-                "publishingUsername": "$pareto-anywhere",
+                "publishingUsername": "$pareto-anywhere-test",
                 "scmType": "None",
                 "use32BitWorkerProcess": false,
                 "webSocketsEnabled": false,
@@ -620,17 +620,17 @@
                 "[resourceId('Microsoft.Web/sites', parameters('sites_pareto_anywhere_name'))]"
             ],
             "properties": {
-                "siteName": "pareto-anywhere",
+                "siteName": "pareto-anywhere-test",
                 "hostNameType": "Verified"
             }
         },
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationrules",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_events_name'), '/pareto-anywhere-event-hub/send')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/pareto-anywhere-test-event-hub/send')]",
             "location": "canadaeast",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), 'pareto-anywhere-event-hub')]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), 'pareto-anywhere-test-event-hub')]",
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {
@@ -642,10 +642,10 @@
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_events_name'), '/pareto-anywhere-event-hub/$Default')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/pareto-anywhere-test-event-hub/$Default')]",
             "location": "canadaeast",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), 'pareto-anywhere-event-hub')]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), 'pareto-anywhere-test-event-hub')]",
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {}
@@ -789,7 +789,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_name'), '/default/pareto-anywhere83c0')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/pareto-anywhere-test83c0')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_name'), 'default')]",
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
