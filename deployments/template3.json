@@ -270,22 +270,6 @@
             }
         },
         {
-            "type": "Microsoft.EventHub/namespaces/networkrulesets",
-            "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_events_name'), '/default')]",
-            "location": "[parameters('region')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
-            ],
-            "properties": {
-                "publicNetworkAccess": "Enabled",
-                "defaultAction": "Allow",
-                "virtualNetworkRules": [],
-                "ipRules": [],
-                "trustedServiceAccessEnabled": false
-            }
-        },
-        {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2022-09-01",
             "name": "[concat(parameters('storageAccounts_name'), '/default')]",
@@ -315,56 +299,6 @@
                 "containerDeleteRetentionPolicy": {
                     "enabled": true,
                     "days": 7
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/fileServices",
-            "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
-            ],
-            "sku": {
-                "name": "Standard_LRS",
-                "tier": "Standard"
-            },
-            "properties": {
-                "protocolSettings": {
-                    "smb": {}
-                },
-                "cors": {
-                    "corsRules": []
-                },
-                "shareDeleteRetentionPolicy": {
-                    "enabled": true,
-                    "days": 7
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/queueServices",
-            "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
-            ],
-            "properties": {
-                "cors": {
-                    "corsRules": []
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/tableServices",
-            "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
-            ],
-            "properties": {
-                "cors": {
-                    "corsRules": []
                 }
             }
         },
@@ -465,16 +399,6 @@
                     "default.aspx",
                     "index.php"
                 ],
-                "appSettings": [
-                    {
-                        "name": "iot_hub_name",
-                        "value": "[parameters('iot_hub_name')]"
-                    },
-                    {
-                        "name": "event_hub_name",
-                        "value": "[parameters('event_hub_name')]"
-                    }
-                ],
                 "netFrameworkVersion": "v4.0",
                 "linuxFxVersion": "Node|18",
                 "requestTracingEnabled": false,
@@ -539,21 +463,6 @@
                 "functionsRuntimeScaleMonitoringEnabled": false,
                 "minimumElasticInstanceCount": 0,
                 "azureStorageAccounts": {}
-            }
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationrules",
-            "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_events_name'), '/', parameters('event_hub_name'), '/send')]",
-            "location": "[parameters('region')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), parameters('event_hub_name'))]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
-            ],
-            "properties": {
-                "rights": [
-                    "Send"
-                ]
             }
         }
     ]
