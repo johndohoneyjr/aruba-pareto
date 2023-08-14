@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sites_pareto_anywhere_name": {
-            "defaultValue": "adeany-pareto-poc-test",
+            "defaultValue": "adeany-pareto-test",
             "type": "string"
         },
         "region": {
@@ -11,27 +11,27 @@
             "type": "string"
         },
         "iot_hub_name": {
-            "defaultValue": "aruba-pareto-poc-iot-hub",
+            "defaultValue": "adeany-pareto-poc-iot-hub",
             "type": "string"
         },
         "namespaces_events_name": {
-            "defaultValue": "aruba-pareto-poc-events",
+            "defaultValue": "adeany-pareto-poc-events",
             "type": "string"
         },
         "event_hub_name": {
-            "defaultValue": "aruba-pareto-poc-event-hub",
+            "defaultValue": "adeany-pareto-poc-event-hub",
             "type": "string"
         },
         "WebPubSub_name": {
-            "defaultValue": "aruba-pareto-poc-wps",
+            "defaultValue": "adeany-pareto-poc-wps",
             "type": "string"
         },
         "serverfarms_name": {
-            "defaultValue": "ASP-arubaparetopoc-9af8",
+            "defaultValue": "ASP-adeanyparetopoc-9af8",
             "type": "string"
         },
         "storageAccounts_name": {
-            "defaultValue": "arubaparetopocsa2",
+            "defaultValue": "adeanyparetopocsa2",
             "type": "string"
         }
     },
@@ -473,7 +473,7 @@
                 "acrUseManagedIdentityCreds": false,
                 "logsDirectorySizeLimit": 35,
                 "detailedErrorLoggingEnabled": false,
-                "publishingUsername": "$adeany-pareto-poc-test",
+                "publishingUsername": "$adeany-pareto-test",
                 "scmType": "None",
                 "use32BitWorkerProcess": false,
                 "webSocketsEnabled": false,
