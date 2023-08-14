@@ -26,7 +26,7 @@ jobs:
       with:
         subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
         resourceGroupName: ${{ secrets.RESOURCE_GROUP }}
-        template: ./deployments/template.json
+        template: ./deployments/template2.json
         parameters: ./deployments/parameters.json 
 
     # output FOO variable from template
