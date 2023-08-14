@@ -5,6 +5,9 @@
         "sites_pareto_anywhere_name": {
             "value": null
         },
+        "region": {
+            "value": null
+        },
         "iot_hub_name": {
             "value": null
         },

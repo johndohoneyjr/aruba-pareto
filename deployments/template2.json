@@ -6,6 +6,10 @@
             "defaultValue": "aruba-pareto-poc-function",
             "type": "string"
         },
+        "region": {
+            "defaultValue": "eastus",
+            "type": "string"
+        }
         "iot_hub_name": {
             "defaultValue": "aruba-pareto-poc-iot-hub",
             "type": "string"
@@ -41,7 +45,7 @@
             "type": "Microsoft.Devices/IotHubs",
             "apiVersion": "2022-04-30-preview",
             "name": "[parameters('iot_hub_name')]",
-            "location": "canadaeast",
+            "location": "[parameters('region')]",
             "sku": {
                 "name": "S1",
                 "tier": "Standard",
@@ -118,7 +122,7 @@
             "type": "Microsoft.Devices/provisioningServices",
             "apiVersion": "2023-03-01-preview",
             "name": "[parameters('provisioningServices_name')]",
-            "location": "canadaeast",
+            "location": "[parameters('region')]",
             "sku": {
                 "name": "S1",
                 "tier": "Standard",
@@ -130,7 +134,7 @@
                 "iotHubs": [
                     {
                         "connectionString": "[concat('HostName=', parameters('iot_hub_name'), '.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=****')]",
-                        "location": "canadaeast"
+                        "location": "[parameters('region')]"
                     }
                 ],
                 "allocationPolicy": "Hashed",
@@ -142,7 +146,7 @@
             "type": "Microsoft.EventHub/namespaces",
             "apiVersion": "2022-10-01-preview",
             "name": "[parameters('namespaces_events_name')]",
-            "location": "Canada East",
+            "location": "[parameters('region')]",
             "sku": {
                 "name": "Basic",
                 "tier": "Basic",
@@ -162,7 +166,7 @@
             "type": "Microsoft.SignalRService/WebPubSub",
             "apiVersion": "2023-06-01-preview",
             "name": "[parameters('WebPubSub_name')]",
-            "location": "canadaeast",
+            "location": "[parameters('region')]",
             "sku": {
                 "name": "Free_F1",
                 "tier": "Free",
@@ -195,7 +199,7 @@
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2022-09-01",
             "name": "[parameters('storageAccounts_name')]",
-            "location": "canadaeast",
+            "location": "[parameters('region')]",
             "sku": {
                 "name": "Standard_LRS",
                 "tier": "Standard"
@@ -237,7 +241,7 @@
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2022-09-01",
             "name": "[parameters('serverfarms_name')]",
-            "location": "Canada East",
+            "location": "[parameters('region')]",
             "sku": {
                 "name": "Y1",
                 "tier": "Dynamic",
@@ -263,7 +267,7 @@
             "type": "Microsoft.EventHub/namespaces/authorizationrules",
             "apiVersion": "2022-10-01-preview",
             "name": "[concat(parameters('namespaces_events_name'), '/RootManageSharedAccessKey')]",
-            "location": "canadaeast",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
@@ -279,7 +283,7 @@
             "type": "Microsoft.EventHub/namespaces/eventhubs",
             "apiVersion": "2022-10-01-preview",
             "name": "[concat(parameters('namespaces_events_name'), '/', parameters('event_hub_name'))]",
-            "location": "canadaeast",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
@@ -297,7 +301,7 @@
             "type": "Microsoft.EventHub/namespaces/networkrulesets",
             "apiVersion": "2022-10-01-preview",
             "name": "[concat(parameters('namespaces_events_name'), '/default')]",
-            "location": "canadaeast",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
@@ -396,7 +400,7 @@
             "type": "Microsoft.Web/sites",
             "apiVersion": "2022-09-01",
             "name": "[parameters('sites_pareto_anywhere_name')]",
-            "location": "Canada East",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]"
             ],
@@ -450,7 +454,7 @@
             "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
             "apiVersion": "2022-09-01",
             "name": "[concat(parameters('sites_pareto_anywhere_name'), '/ftp')]",
-            "location": "Canada East",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('sites_pareto_anywhere_name'))]"
             ],
@@ -462,7 +466,7 @@
             "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
             "apiVersion": "2022-09-01",
             "name": "[concat(parameters('sites_pareto_anywhere_name'), '/scm')]",
-            "location": "Canada East",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('sites_pareto_anywhere_name'))]"
             ],
@@ -474,7 +478,7 @@
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2022-09-01",
             "name": "[concat(parameters('sites_pareto_anywhere_name'), '/web')]",
-            "location": "Canada East",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('sites_pareto_anywhere_name'))]"
             ],
@@ -560,7 +564,7 @@
             "type": "Microsoft.Web/sites/functions",
             "apiVersion": "2022-09-01",
             "name": "[concat(parameters('sites_pareto_anywhere_name'), '/negotiateConnection')]",
-            "location": "Canada East",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('sites_pareto_anywhere_name'))]"
             ],
@@ -580,7 +584,7 @@
             "type": "Microsoft.Web/sites/functions",
             "apiVersion": "2022-09-01",
             "name": "[concat(parameters('sites_pareto_anywhere_name'), '/processIoTHubMessages')]",
-            "location": "Canada East",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('sites_pareto_anywhere_name'))]"
             ],
@@ -599,7 +603,7 @@
             "type": "Microsoft.Web/sites/functions",
             "apiVersion": "2022-09-01",
             "name": "[concat(parameters('sites_pareto_anywhere_name'), '/serveWebApp')]",
-            "location": "Canada East",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('sites_pareto_anywhere_name'))]"
             ],
@@ -619,7 +623,7 @@
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2022-09-01",
             "name": "[concat(parameters('sites_pareto_anywhere_name'), '/', parameters('sites_pareto_anywhere_name'), '.azurewebsites.net')]",
-            "location": "Canada East",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('sites_pareto_anywhere_name'))]"
             ],
@@ -632,7 +636,7 @@
             "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationrules",
             "apiVersion": "2022-10-01-preview",
             "name": "[concat(parameters('namespaces_events_name'), '/', parameters('event_hub_name'), '/send')]",
-            "location": "canadaeast",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), parameters('event_hub_name'))]",
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
@@ -647,7 +651,7 @@
             "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
             "apiVersion": "2022-10-01-preview",
             "name": "[concat(parameters('namespaces_events_name'), '/', parameters('event_hub_name'), '/$Default')]",
-            "location": "canadaeast",
+            "location": "[parameters('region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), parameters('event_hub_name'))]",
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
