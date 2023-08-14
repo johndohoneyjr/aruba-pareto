@@ -274,7 +274,7 @@
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_events_name'), '/pareto-anywhere-event-hub')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/pareto-anywhere-test-event-hub')]",
             "location": "canadaeast",
             "dependsOn": [
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
