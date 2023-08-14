@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sites_pareto_anywhere_name": {
-            "defaultValue": "aruba-pa-poc",
+            "defaultValue": "adeany-func-test",
             "type": "string"
         },
         "region": {
@@ -502,7 +502,7 @@
                 "acrUseManagedIdentityCreds": false,
                 "logsDirectorySizeLimit": 35,
                 "detailedErrorLoggingEnabled": false,
-                "publishingUsername": "$aruba-pa-poc",
+                "publishingUsername": "$adeany-func-test",
                 "scmType": "None",
                 "use32BitWorkerProcess": false,
                 "webSocketsEnabled": false,
