@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sites_pareto_anywhere_name": {
-            "defaultValue": "adeany-func-test",
+            "defaultValue": "adeany-pareto-poc-test",
             "type": "string"
         },
         "region": {
@@ -32,10 +32,6 @@
         },
         "storageAccounts_name": {
             "defaultValue": "arubaparetopocsa2",
-            "type": "string"
-        },
-        "provisioningServices_name": {
-            "defaultValue": "aruba-pareto-poc-provisioning",
             "type": "string"
         }
     },
@@ -119,30 +115,6 @@
             }
         },
         {
-            "type": "Microsoft.Devices/provisioningServices",
-            "apiVersion": "2023-03-01-preview",
-            "name": "[parameters('provisioningServices_name')]",
-            "location": "[parameters('region')]",
-            "sku": {
-                "name": "S1",
-                "tier": "Standard",
-                "capacity": 1
-            },
-            "properties": {
-                "state": "Active",
-                "provisioningState": "Succeeded",
-                "iotHubs": [
-                    {
-                        "connectionString": "[concat('HostName=', parameters('iot_hub_name'), '.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=****')]",
-                        "location": "[parameters('region')]"
-                    }
-                ],
-                "allocationPolicy": "Hashed",
-                "portalOperationsHostName": "[concat(parameters('provisioningServices_name'), '.services.azure-devices-provisioning.net')]",
-                "enableDataResidency": false
-            }
-        },
-        {
             "type": "Microsoft.EventHub/namespaces",
             "apiVersion": "2022-10-01-preview",
             "name": "[parameters('namespaces_events_name')]",
@@ -173,7 +145,7 @@
                 "size": "F1",
                 "capacity": 1
             },
-            "kind": "SignalR",
+            "kind": "WebPubSub",
             "properties": {
                 "tls": {
                     "clientCertEnabled": false
@@ -458,7 +430,7 @@
                 "[resourceId('Microsoft.Web/sites', parameters('sites_pareto_anywhere_name'))]"
             ],
             "properties": {
-                "allow": true
+                "allow": false
             }
         },
         {
@@ -470,7 +442,7 @@
                 "[resourceId('Microsoft.Web/sites', parameters('sites_pareto_anywhere_name'))]"
             ],
             "properties": {
-                "allow": true
+                "allow": false
             }
         },
         {
@@ -501,7 +473,7 @@
                 "acrUseManagedIdentityCreds": false,
                 "logsDirectorySizeLimit": 35,
                 "detailedErrorLoggingEnabled": false,
-                "publishingUsername": "$adeany-func-test",
+                "publishingUsername": "$adeany-pareto-poc-test",
                 "scmType": "None",
                 "use32BitWorkerProcess": false,
                 "webSocketsEnabled": false,
