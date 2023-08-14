@@ -2,39 +2,33 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "IotHubs_pareto_anywhere_iot_hub_connectionString": {
-            "type": "SecureString"
-        },
-        "IotHubs_pareto_anywhere_iot_hub_containerName": {
-            "type": "SecureString"
-        },
         "sites_pareto_anywhere_name": {
             "defaultValue": "pareto-anywhere",
-            "type": "String"
+            "type": "string"
         },
-        "IotHubs_pareto_anywhere_iot_hub_name": {
+        "iot_hub_name": {
             "defaultValue": "pareto-anywhere-iot-hub",
-            "type": "String"
+            "type": "string"
         },
-        "namespaces_pareto_anywhere_events_name": {
+        "namespaces_events_name": {
             "defaultValue": "pareto-anywhere-events",
-            "type": "String"
+            "type": "string"
         },
-        "WebPubSub_pareto_anywhere_wps_name": {
+        "WebPubSub_name": {
             "defaultValue": "pareto-anywhere-wps",
-            "type": "String"
+            "type": "string"
         },
-        "serverfarms_ASP_paretoanywhereazure_b466_name": {
+        "serverfarms_name": {
             "defaultValue": "ASP-paretoanywhereazure-b466",
-            "type": "String"
+            "type": "string"
         },
-        "storageAccounts_paretoanywherestorage_name": {
+        "storageAccounts_name": {
             "defaultValue": "paretoanywherestorage",
-            "type": "String"
+            "type": "string"
         },
-        "provisioningServices_pareto_anywhere_provisioning_name": {
+        "provisioningServices_name": {
             "defaultValue": "pareto-anywhere-provisioning",
-            "type": "String"
+            "type": "string"
         }
     },
     "variables": {},
@@ -42,7 +36,7 @@
         {
             "type": "Microsoft.Devices/IotHubs",
             "apiVersion": "2022-04-30-preview",
-            "name": "[parameters('IotHubs_pareto_anywhere_iot_hub_name')]",
+            "name": "[parameters('iot_hub_name')]",
             "location": "canadaeast",
             "sku": {
                 "name": "S1",
@@ -89,13 +83,7 @@
                         "isEnabled": true
                     }
                 },
-                "storageEndpoints": {
-                    "$default": {
-                        "sasTtlAsIso8601": "PT1H",
-                        "connectionString": "[parameters('IotHubs_pareto_anywhere_iot_hub_connectionString')]",
-                        "containerName": "[parameters('IotHubs_pareto_anywhere_iot_hub_containerName')]"
-                    }
-                },
+                "storageEndpoints": {},
                 "messagingEndpoints": {
                     "fileNotifications": {
                         "lockDurationAsIso8601": "PT1M",
@@ -125,7 +113,7 @@
         {
             "type": "Microsoft.Devices/provisioningServices",
             "apiVersion": "2023-03-01-preview",
-            "name": "[parameters('provisioningServices_pareto_anywhere_provisioning_name')]",
+            "name": "[parameters('provisioningServices_name')]",
             "location": "canadaeast",
             "sku": {
                 "name": "S1",
@@ -142,14 +130,14 @@
                     }
                 ],
                 "allocationPolicy": "Hashed",
-                "portalOperationsHostName": "[concat(parameters('provisioningServices_pareto_anywhere_provisioning_name'), '.services.azure-devices-provisioning.net')]",
+                "portalOperationsHostName": "[concat(parameters('provisioningServices_name'), '.services.azure-devices-provisioning.net')]",
                 "enableDataResidency": false
             }
         },
         {
             "type": "Microsoft.EventHub/namespaces",
             "apiVersion": "2022-10-01-preview",
-            "name": "[parameters('namespaces_pareto_anywhere_events_name')]",
+            "name": "[parameters('namespaces_events_name')]",
             "location": "Canada East",
             "sku": {
                 "name": "Basic",
@@ -169,7 +157,7 @@
         {
             "type": "Microsoft.SignalRService/WebPubSub",
             "apiVersion": "2023-06-01-preview",
-            "name": "[parameters('WebPubSub_pareto_anywhere_wps_name')]",
+            "name": "[parameters('WebPubSub_name')]",
             "location": "canadaeast",
             "sku": {
                 "name": "Free_F1",
@@ -202,7 +190,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2022-09-01",
-            "name": "[parameters('storageAccounts_paretoanywherestorage_name')]",
+            "name": "[parameters('storageAccounts_name')]",
             "location": "canadaeast",
             "sku": {
                 "name": "Standard_LRS",
@@ -244,7 +232,7 @@
         {
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2022-09-01",
-            "name": "[parameters('serverfarms_ASP_paretoanywhereazure_b466_name')]",
+            "name": "[parameters('serverfarms_name')]",
             "location": "Canada East",
             "sku": {
                 "name": "Y1",
@@ -270,10 +258,10 @@
         {
             "type": "Microsoft.EventHub/namespaces/authorizationrules",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_pareto_anywhere_events_name'), '/RootManageSharedAccessKey')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/RootManageSharedAccessKey')]",
             "location": "canadaeast",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_pareto_anywhere_events_name'))]"
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {
                 "rights": [
@@ -286,10 +274,10 @@
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_pareto_anywhere_events_name'), '/pareto-anywhere-event-hub')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/pareto-anywhere-event-hub')]",
             "location": "canadaeast",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_pareto_anywhere_events_name'))]"
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {
                 "retentionDescription": {
@@ -304,10 +292,10 @@
         {
             "type": "Microsoft.EventHub/namespaces/networkrulesets",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_pareto_anywhere_events_name'), '/default')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/default')]",
             "location": "canadaeast",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_pareto_anywhere_events_name'))]"
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {
                 "publicNetworkAccess": "Enabled",
@@ -320,9 +308,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "sku": {
                 "name": "Standard_LRS",
@@ -353,9 +341,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/fileServices",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "sku": {
                 "name": "Standard_LRS",
@@ -377,9 +365,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/queueServices",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "cors": {
@@ -390,9 +378,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/tableServices",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "cors": {
@@ -406,7 +394,7 @@
             "name": "[parameters('sites_pareto_anywhere_name')]",
             "location": "Canada East",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_paretoanywhereazure_b466_name'))]"
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]"
             ],
             "kind": "functionapp,linux",
             "properties": {
@@ -423,7 +411,7 @@
                         "hostType": "Repository"
                     }
                 ],
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_paretoanywhereazure_b466_name'))]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]",
                 "reserved": true,
                 "isXenon": false,
                 "hyperV": false,
@@ -639,11 +627,11 @@
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationrules",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_pareto_anywhere_events_name'), '/pareto-anywhere-event-hub/send')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/pareto-anywhere-event-hub/send')]",
             "location": "canadaeast",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_pareto_anywhere_events_name'), 'pareto-anywhere-event-hub')]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_pareto_anywhere_events_name'))]"
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), 'pareto-anywhere-event-hub')]",
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {
                 "rights": [
@@ -654,21 +642,21 @@
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_pareto_anywhere_events_name'), '/pareto-anywhere-event-hub/$Default')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/pareto-anywhere-event-hub/$Default')]",
             "location": "canadaeast",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_pareto_anywhere_events_name'), 'pareto-anywhere-event-hub')]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_pareto_anywhere_events_name'))]"
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), 'pareto-anywhere-event-hub')]",
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {}
         },
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default/azure-webjobs-eventhub')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/azure-webjobs-eventhub')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_paretoanywherestorage_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -682,10 +670,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default/azure-webjobs-hosts')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/azure-webjobs-hosts')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_paretoanywherestorage_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -699,10 +687,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default/azure-webjobs-secrets')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/azure-webjobs-secrets')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_paretoanywherestorage_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -716,10 +704,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default/deviceprofiles')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/deviceprofiles')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_paretoanywherestorage_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -733,10 +721,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default/function-releases')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/function-releases')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_paretoanywherestorage_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -750,10 +738,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default/insights-logs-connections')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/insights-logs-connections')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_paretoanywherestorage_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -767,10 +755,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default/insights-logs-devicetelemetry')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/insights-logs-devicetelemetry')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_paretoanywherestorage_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -784,10 +772,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default/scm-releases')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/scm-releases')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_paretoanywherestorage_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -801,10 +789,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_paretoanywherestorage_name'), '/default/pareto-anywhere83c0')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/pareto-anywhere83c0')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_paretoanywherestorage_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_paretoanywherestorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "accessTier": "TransactionOptimized",
