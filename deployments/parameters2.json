@@ -2,12 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "iot_hub_connectionString": {
-            "value": null
-        },
-        "iot_hub_containerName": {
-            "value": null
-        },
         "sites_function_name": {
             "value": null
         },

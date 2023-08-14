@@ -2,12 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "iot_hub_connectionString": {
-            "type": "securestring"
-        },
-        "iot_hub_containerName": {
-            "type": "securestring"
-        },
         "sites_function_name": {
             "defaultValue": "aruba-pareto-poc-function",
             "type": "string"
@@ -83,13 +77,7 @@
                         "isEnabled": true
                     }
                 },
-                "storageEndpoints": {
-                    "$default": {
-                        "sasTtlAsIso8601": "PT1H",
-                        "connectionString": "[parameters('iot_hub_connectionString')]",
-                        "containerName": "[parameters('iot_hub_containerName')]"
-                    }
-                },
+                "storageEndpoints": {},
                 "messagingEndpoints": {
                     "fileNotifications": {
                         "lockDurationAsIso8601": "PT1M",
