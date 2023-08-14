@@ -502,7 +502,7 @@
                 "acrUseManagedIdentityCreds": false,
                 "logsDirectorySizeLimit": 35,
                 "detailedErrorLoggingEnabled": false,
-                "publishingUsername": "$aruba-pareto-poc-function",
+                "publishingUsername": "[concat('$', parameters('sites_pareto_anywhere_name')]",
                 "scmType": "None",
                 "use32BitWorkerProcess": false,
                 "webSocketsEnabled": false,
@@ -797,7 +797,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_name'), '/default/aruba-pareto-poc-functiona1e8')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/', parameters('sites_pareto_anywhere_name'), 'a1e8')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_name'), 'default')]",
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
