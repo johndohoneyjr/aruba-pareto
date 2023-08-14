@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "IotHubs_aruba_pareto_poc_iot_hub_connectionString": {
+            "value": null
+        },
+        "IotHubs_aruba_pareto_poc_iot_hub_containerName": {
+            "value": null
+        },
+        "sites_aruba_pareto_poc_function_name": {
+            "value": null
+        },
+        "serverfarms_ASP_arubaparetopoc_9af8_name": {
+            "value": null
+        },
+        "IotHubs_aruba_pareto_poc_iot_hub_name": {
+            "value": null
+        },
+        "storageAccounts_arubaparetopocsa_name": {
+            "value": null
+        },
+        "namespaces_aruba_pareto_poc_events_name": {
+            "value": null
+        },
+        "components_aruba_pareto_poc_function_name": {
+            "value": null
+        },
+        "WebPubSub_aruba_pareto_poc_wps_name": {
+            "value": null
+        },
+        "workspaces_defaultworkspace_3d858994_3a72_4e86_b278_d8bcd667aa6d_eus_externalid": {
+            "value": null
+        }
+    }
+}
