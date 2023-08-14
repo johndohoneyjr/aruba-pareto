@@ -3,28 +3,28 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sites_function_name": {
-            "value": null
+            "value": "aruba-pareto-poc-function"
         },
         "serverfarms_name": {
-            "value": null
+            "value": "ASP-arubaparetopoc-9af8"
         },
         "iot_hub_name": {
-            "value": null
+            "value": "aruba-pareto-poc-iot-hub"
         },
         "storageAccounts_name": {
-            "value": null
+            "value": "arubaparetopocsa"
         },
         "namespaces_events_name": {
-            "value": null
+            "value": "aruba-pareto-poc-events"
         },
         "components_function_name": {
-            "value": null
+            "value": "aruba-pareto-poc-function"
         },
         "WebPubSub_name": {
-            "value": null
+            "value": "aruba-pareto-poc-wps"
         },
         "workspaces_defaultworkspace": {
-            "value": null
+            "value": "/subscriptions/3d858994-3a72-4e86-b278-d8bcd667aa6d/resourceGroups/defaultresourcegroup-eus/providers/microsoft.operationalinsights/workspaces/defaultworkspace-3d858994-3a72-4e86-b278-d8bcd667aa6d-eus"
         }
     }
 }

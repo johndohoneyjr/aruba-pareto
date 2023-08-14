@@ -700,12 +700,12 @@
                 "enabled": true,
                 "hostNameSslStates": [
                     {
-                        "name": "[concat(parameters('sites_aruba_pareto_poc_function_name'), '.azurewebsites.net')]",
+                        "name": "[concat(parameters('sites_function_name'), '.azurewebsites.net')]",
                         "sslState": "Disabled",
                         "hostType": "Standard"
                     },
                     {
-                        "name": "[concat(parameters('sites_aruba_pareto_poc_function_name'), '.scm.azurewebsites.net')]",
+                        "name": "[concat(parameters('sites_function_name'), '.scm.azurewebsites.net')]",
                         "sslState": "Disabled",
                         "hostType": "Repository"
                     }
@@ -744,10 +744,10 @@
         {
             "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('sites_aruba_pareto_poc_function_name'), '/ftp')]",
+            "name": "[concat(parameters('sites_function_name'), '/ftp')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_aruba_pareto_poc_function_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('sites_function_name'))]"
             ],
             "tags": {
                 "hidden-link: /app-insights-resource-id": "/subscriptions/3d858994-3a72-4e86-b278-d8bcd667aa6d/resourceGroups/aruba-pareto-poc/providers/Microsoft.Insights/components/aruba-pareto-poc-function"
@@ -759,10 +759,10 @@
         {
             "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('sites_aruba_pareto_poc_function_name'), '/scm')]",
+            "name": "[concat(parameters('sites_function_name'), '/scm')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_aruba_pareto_poc_function_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('sites_function_name'))]"
             ],
             "tags": {
                 "hidden-link: /app-insights-resource-id": "/subscriptions/3d858994-3a72-4e86-b278-d8bcd667aa6d/resourceGroups/aruba-pareto-poc/providers/Microsoft.Insights/components/aruba-pareto-poc-function"
@@ -774,10 +774,10 @@
         {
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('sites_aruba_pareto_poc_function_name'), '/web')]",
+            "name": "[concat(parameters('sites_function_name'), '/web')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_aruba_pareto_poc_function_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('sites_function_name'))]"
             ],
             "tags": {
                 "hidden-link: /app-insights-resource-id": "/subscriptions/3d858994-3a72-4e86-b278-d8bcd667aa6d/resourceGroups/aruba-pareto-poc/providers/Microsoft.Insights/components/aruba-pareto-poc-function"
@@ -863,10 +863,10 @@
         {
             "type": "Microsoft.Web/sites/functions",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('sites_aruba_pareto_poc_function_name'), '/negotiateConnection')]",
+            "name": "[concat(parameters('sites_function_name'), '/negotiateConnection')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_aruba_pareto_poc_function_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('sites_function_name'))]"
             ],
             "properties": {
                 "script_root_path_href": "https://aruba-pareto-poc-function.azurewebsites.net/admin/vfs/home/site/wwwroot/negotiateConnection/",
@@ -883,10 +883,10 @@
         {
             "type": "Microsoft.Web/sites/functions",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('sites_aruba_pareto_poc_function_name'), '/processIoTHubMessages')]",
+            "name": "[concat(parameters('sites_function_name'), '/processIoTHubMessages')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_aruba_pareto_poc_function_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('sites_function_name'))]"
             ],
             "properties": {
                 "script_root_path_href": "https://aruba-pareto-poc-function.azurewebsites.net/admin/vfs/home/site/wwwroot/processIoTHubMessages/",
@@ -902,10 +902,10 @@
         {
             "type": "Microsoft.Web/sites/functions",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('sites_aruba_pareto_poc_function_name'), '/serveWebApp')]",
+            "name": "[concat(parameters('sites_function_name'), '/serveWebApp')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_aruba_pareto_poc_function_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('sites_function_name'))]"
             ],
             "properties": {
                 "script_root_path_href": "https://aruba-pareto-poc-function.azurewebsites.net/admin/vfs/home/site/wwwroot/serveWebApp/",
@@ -922,10 +922,10 @@
         {
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('sites_aruba_pareto_poc_function_name'), '/', parameters('sites_aruba_pareto_poc_function_name'), '.azurewebsites.net')]",
+            "name": "[concat(parameters('sites_function_name'), '/', parameters('sites_function_name'), '.azurewebsites.net')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_aruba_pareto_poc_function_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('sites_function_name'))]"
             ],
             "properties": {
                 "siteName": "aruba-pareto-poc-function",
