@@ -31,7 +31,7 @@
             "type": "string"
         },
         "storageAccounts_name": {
-            "defaultValue": "arubaparetopocsa",
+            "defaultValue": "arubaparetopocsa2",
             "type": "string"
         },
         "provisioningServices_name": {
