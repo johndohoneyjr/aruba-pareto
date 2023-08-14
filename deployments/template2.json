@@ -2,41 +2,41 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "IotHubs_aruba_pareto_poc_iot_hub_connectionString": {
-            "type": "secureString"
+        "iot_hub_connectionString": {
+            "type": "securestring"
         },
-        "IotHubs_aruba_pareto_poc_iot_hub_containerName": {
-            "type": "secureString"
+        "iot_hub_containerName": {
+            "type": "securestring"
         },
-        "sites_aruba_pareto_poc_function_name": {
+        "sites_function_name": {
             "defaultValue": "aruba-pareto-poc-function",
             "type": "string"
         },
-        "serverfarms_ASP_arubaparetopoc_9af8_name": {
+        "serverfarms_name": {
             "defaultValue": "ASP-arubaparetopoc-9af8",
             "type": "string"
         },
-        "IotHubs_aruba_pareto_poc_iot_hub_name": {
+        "iot_hub_name": {
             "defaultValue": "aruba-pareto-poc-iot-hub",
             "type": "string"
         },
-        "storageAccounts_arubaparetopocsa_name": {
+        "storageAccounts_name": {
             "defaultValue": "arubaparetopocsa",
             "type": "string"
         },
-        "namespaces_aruba_pareto_poc_events_name": {
+        "namespaces_events_name": {
             "defaultValue": "aruba-pareto-poc-events",
             "type": "string"
         },
-        "components_aruba_pareto_poc_function_name": {
+        "components_function_name": {
             "defaultValue": "aruba-pareto-poc-function",
             "type": "string"
         },
-        "WebPubSub_aruba_pareto_poc_wps_name": {
+        "WebPubSub_name": {
             "defaultValue": "aruba-pareto-poc-wps",
             "type": "string"
         },
-        "workspaces_defaultworkspace_3d858994_3a72_4e86_b278_d8bcd667aa6d_eus_externalid": {
+        "workspaces_defaultworkspace": {
             "defaultValue": "/subscriptions/3d858994-3a72-4e86-b278-d8bcd667aa6d/resourceGroups/defaultresourcegroup-eus/providers/microsoft.operationalinsights/workspaces/defaultworkspace-3d858994-3a72-4e86-b278-d8bcd667aa6d-eus",
             "type": "string"
         }
@@ -46,7 +46,7 @@
         {
             "type": "Microsoft.Devices/IotHubs",
             "apiVersion": "2022-04-30-preview",
-            "name": "[parameters('IotHubs_aruba_pareto_poc_iot_hub_name')]",
+            "name": "[parameters('iot_hub_name')]",
             "location": "eastus",
             "sku": {
                 "name": "S1",
@@ -86,8 +86,8 @@
                 "storageEndpoints": {
                     "$default": {
                         "sasTtlAsIso8601": "PT1H",
-                        "connectionString": "[parameters('IotHubs_aruba_pareto_poc_iot_hub_connectionString')]",
-                        "containerName": "[parameters('IotHubs_aruba_pareto_poc_iot_hub_containerName')]"
+                        "connectionString": "[parameters('iot_hub_connectionString')]",
+                        "containerName": "[parameters('iot_hub_containerName')]"
                     }
                 },
                 "messagingEndpoints": {
@@ -116,7 +116,7 @@
         {
             "type": "Microsoft.EventHub/namespaces",
             "apiVersion": "2022-10-01-preview",
-            "name": "[parameters('namespaces_aruba_pareto_poc_events_name')]",
+            "name": "[parameters('namespaces_events_name')]",
             "location": "East US",
             "sku": {
                 "name": "Basic",
@@ -136,7 +136,7 @@
         {
             "type": "microsoft.insights/components",
             "apiVersion": "2020-02-02",
-            "name": "[parameters('components_aruba_pareto_poc_function_name')]",
+            "name": "[parameters('components_function_name')]",
             "location": "eastus",
             "kind": "web",
             "properties": {
@@ -144,7 +144,7 @@
                 "Flow_Type": "Redfield",
                 "Request_Source": "IbizaWebAppExtensionCreate",
                 "RetentionInDays": 90,
-                "WorkspaceResourceId": "[parameters('workspaces_defaultworkspace_3d858994_3a72_4e86_b278_d8bcd667aa6d_eus_externalid')]",
+                "WorkspaceResourceId": "[parameters('workspaces_defaultworkspace')]",
                 "IngestionMode": "LogAnalytics",
                 "publicNetworkAccessForIngestion": "Enabled",
                 "publicNetworkAccessForQuery": "Enabled"
@@ -153,7 +153,7 @@
         {
             "type": "Microsoft.SignalRService/WebPubSub",
             "apiVersion": "2023-06-01-preview",
-            "name": "[parameters('WebPubSub_aruba_pareto_poc_wps_name')]",
+            "name": "[parameters('WebPubSub_name')]",
             "location": "eastus",
             "sku": {
                 "name": "Free_F1",
@@ -186,7 +186,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2022-09-01",
-            "name": "[parameters('storageAccounts_arubaparetopocsa_name')]",
+            "name": "[parameters('storageAccounts_name')]",
             "location": "eastus",
             "sku": {
                 "name": "Standard_LRS",
@@ -227,8 +227,8 @@
         },
         {
             "type": "Microsoft.Web/serverfarms",
-            "apiVersion": "2022-09-01",
-            "name": "[parameters('serverfarms_ASP_arubaparetopoc_9af8_name')]",
+            "apiVersion": "2022-03-01",
+            "name": "[parameters('serverfarms_name')]",
             "location": "East US",
             "sku": {
                 "name": "Y1",
@@ -254,10 +254,10 @@
         {
             "type": "Microsoft.EventHub/namespaces/authorizationrules",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_aruba_pareto_poc_events_name'), '/RootManageSharedAccessKey')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/RootManageSharedAccessKey')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_aruba_pareto_poc_events_name'))]"
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {
                 "rights": [
@@ -270,10 +270,10 @@
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_aruba_pareto_poc_events_name'), '/aruba-pareto-poc-event-hub')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/aruba-pareto-poc-event-hub')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_aruba_pareto_poc_events_name'))]"
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {
                 "retentionDescription": {
@@ -288,10 +288,10 @@
         {
             "type": "Microsoft.EventHub/namespaces/networkrulesets",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_aruba_pareto_poc_events_name'), '/default')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/default')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_aruba_pareto_poc_events_name'))]"
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {
                 "publicNetworkAccess": "Enabled",
@@ -304,10 +304,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/degradationindependencyduration')]",
+            "name": "[concat(parameters('components_function_name'), '/degradationindependencyduration')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -328,10 +328,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/degradationinserverresponsetime')]",
+            "name": "[concat(parameters('components_function_name'), '/degradationinserverresponsetime')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -352,10 +352,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/digestMailConfiguration')]",
+            "name": "[concat(parameters('components_function_name'), '/digestMailConfiguration')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -376,10 +376,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/extension_billingdatavolumedailyspikeextension')]",
+            "name": "[concat(parameters('components_function_name'), '/extension_billingdatavolumedailyspikeextension')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -400,10 +400,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/extension_canaryextension')]",
+            "name": "[concat(parameters('components_function_name'), '/extension_canaryextension')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -424,10 +424,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/extension_exceptionchangeextension')]",
+            "name": "[concat(parameters('components_function_name'), '/extension_exceptionchangeextension')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -448,10 +448,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/extension_memoryleakextension')]",
+            "name": "[concat(parameters('components_function_name'), '/extension_memoryleakextension')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -472,10 +472,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/extension_securityextensionspackage')]",
+            "name": "[concat(parameters('components_function_name'), '/extension_securityextensionspackage')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -496,10 +496,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/extension_traceseveritydetector')]",
+            "name": "[concat(parameters('components_function_name'), '/extension_traceseveritydetector')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -520,10 +520,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/longdependencyduration')]",
+            "name": "[concat(parameters('components_function_name'), '/longdependencyduration')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -544,10 +544,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/migrationToAlertRulesCompleted')]",
+            "name": "[concat(parameters('components_function_name'), '/migrationToAlertRulesCompleted')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -568,10 +568,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/slowpageloadtime')]",
+            "name": "[concat(parameters('components_function_name'), '/slowpageloadtime')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -592,10 +592,10 @@
         {
             "type": "microsoft.insights/components/ProactiveDetectionConfigs",
             "apiVersion": "2018-05-01-preview",
-            "name": "[concat(parameters('components_aruba_pareto_poc_function_name'), '/slowserverresponsetime')]",
+            "name": "[concat(parameters('components_function_name'), '/slowserverresponsetime')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_aruba_pareto_poc_function_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('components_function_name'))]"
             ],
             "properties": {
                 "ruleDefinitions": {
@@ -616,9 +616,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_arubaparetopocsa_name'), '/default')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_arubaparetopocsa_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "sku": {
                 "name": "Standard_LRS",
@@ -649,9 +649,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/fileServices",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_arubaparetopocsa_name'), '/default')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_arubaparetopocsa_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "sku": {
                 "name": "Standard_LRS",
@@ -673,9 +673,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/queueServices",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_arubaparetopocsa_name'), '/default')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_arubaparetopocsa_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "cors": {
@@ -686,9 +686,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/tableServices",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_arubaparetopocsa_name'), '/default')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_arubaparetopocsa_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "cors": {
@@ -699,10 +699,10 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2022-09-01",
-            "name": "[parameters('sites_aruba_pareto_poc_function_name')]",
+            "name": "[parameters('sites_function_name')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_arubaparetopoc_9af8_name'))]"
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]"
             ],
             "tags": {
                 "hidden-link: /app-insights-resource-id": "/subscriptions/3d858994-3a72-4e86-b278-d8bcd667aa6d/resourceGroups/aruba-pareto-poc/providers/Microsoft.Insights/components/aruba-pareto-poc-function"
@@ -722,7 +722,7 @@
                         "hostType": "Repository"
                     }
                 ],
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_arubaparetopoc_9af8_name'))]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]",
                 "reserved": true,
                 "isXenon": false,
                 "hyperV": false,
@@ -947,11 +947,11 @@
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationrules",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_aruba_pareto_poc_events_name'), '/aruba-pareto-poc-event-hub/send')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/aruba-pareto-poc-event-hub/send')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_aruba_pareto_poc_events_name'), 'aruba-pareto-poc-event-hub')]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_aruba_pareto_poc_events_name'))]"
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), 'aruba-pareto-poc-event-hub')]",
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {
                 "rights": [
@@ -962,21 +962,21 @@
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_aruba_pareto_poc_events_name'), '/aruba-pareto-poc-event-hub/$Default')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/aruba-pareto-poc-event-hub/$Default')]",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_aruba_pareto_poc_events_name'), 'aruba-pareto-poc-event-hub')]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_aruba_pareto_poc_events_name'))]"
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), 'aruba-pareto-poc-event-hub')]",
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {}
         },
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_arubaparetopocsa_name'), '/default/azure-webjobs-eventhub')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/azure-webjobs-eventhub')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_arubaparetopocsa_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_arubaparetopocsa_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -990,10 +990,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_arubaparetopocsa_name'), '/default/azure-webjobs-hosts')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/azure-webjobs-hosts')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_arubaparetopocsa_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_arubaparetopocsa_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -1007,10 +1007,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_arubaparetopocsa_name'), '/default/azure-webjobs-secrets')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/azure-webjobs-secrets')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_arubaparetopocsa_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_arubaparetopocsa_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -1024,10 +1024,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_arubaparetopocsa_name'), '/default/function-releases')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/function-releases')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_arubaparetopocsa_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_arubaparetopocsa_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -1041,10 +1041,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_arubaparetopocsa_name'), '/default/scm-releases')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/scm-releases')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_arubaparetopocsa_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_arubaparetopocsa_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
@@ -1058,10 +1058,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_arubaparetopocsa_name'), '/default/aruba-pareto-poc-functiona1e8')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/aruba-pareto-poc-functiona1e8')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_arubaparetopocsa_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_arubaparetopocsa_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
             ],
             "properties": {
                 "accessTier": "TransactionOptimized",
