@@ -9,7 +9,7 @@
         "region": {
             "defaultValue": "eastus",
             "type": "string"
-        }
+        },
         "iot_hub_name": {
             "defaultValue": "aruba-pareto-poc-iot-hub",
             "type": "string"
