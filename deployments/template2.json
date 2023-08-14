@@ -447,7 +447,7 @@
         },
         {
             "type": "Microsoft.Web/sites/config",
-            "apiVersion": "2022-09-01",
+            "apiVersion": "2022-03-01",
             "name": "[concat(parameters('sites_pareto_anywhere_name'), '/web')]",
             "location": "[parameters('region')]",
             "dependsOn": [
@@ -464,6 +464,16 @@
                     "iisstart.htm",
                     "default.aspx",
                     "index.php"
+                ],
+                "appSettings": [
+                    {
+                        "name": "iot_hub_name",
+                        "value": "[parameters('iot_hub_name')]"
+                    },
+                    {
+                        "name": "event_hub_name",
+                        "value": "[parameters('event_hub_name')]"
+                    }
                 ],
                 "netFrameworkVersion": "v4.0",
                 "linuxFxVersion": "Node|18",
