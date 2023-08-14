@@ -31,14 +31,22 @@ az eventhubs eventhub create --name $eventhubName --resource-group "iot-pareto" 
 # Added Listen and Send as rights
 az eventhubs eventhub authorization-rule create --authorization-rule-name aruba-hub-rule --eventhub-name $eventhubName --namespace-name $namespaceName --resource-group "iot-pareto" --rights Listen Send
 
-export pubsubName="pubsub$RANDOM"
+#export pubsubName="pubsub$RANDOM"
+export pubsubName="pareto-anywhere"
 az webpubsub create --name $pubsubName --resource-group "iot-pareto" --location "WestUS" --sku Free_F1
 
 export psendpoint=$(az webpubsub key show  --name "pareto-anywhere"  --resource-group "iot-pareto" --query primaryConnectionString --output tsv)
 
-az eventhubs eventhub authorization-rule keys list --resource-group <resource-group-name> --namespace-name <namespace-name> --eventhub-name <event-hub-name> --name <authorization-rule-name>
+az eventhubs eventhub authorization-rule keys list --resource-group "iot-pareto" --namespace-name $namespaceName --eventhub-name $eventhubName --name aruba-hub-rule
 
-az storage account show-connection-string --name <storage-account-name> --resource-group <resource-group-name>
+export saName="arubastorage$RANDOM"
+az storage account create --name $saName --resource-group "iot-pareto" --sku Standard_LRS --kind BlobStorage --access-tier Hot
+
+storageConnection=$(az storage account show-connection-string --name $saName --resource-group "iot-pareto" --output tsv)
+
+sendAppSetting=$(az eventhubs eventhub authorization-rule keys list --resource-group "iot-pareto" --namespace-name $namespaceName --eventhub-name $eventhubName --name aruba-hub-rule | jq  .primaryConnectionString)
+
+psendpoint=$(az webpubsub key show  --name "pareto-anywhere"  --resource-group "iot-pareto" --query primaryConnectionString --output tsv)
 
 # Stitch together the resource file
 cat <<EOF > ./local.settings.json
@@ -46,9 +54,9 @@ cat <<EOF > ./local.settings.json
   "IsEncrypted": false,
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "node",
-    "AzureWebJobsStorage": "",
-    "EventHubConnectionString": "",
-    "EventHubSendAppSetting": "",
+    "AzureWebJobsStorage": "$storageConnection",
+    "EventHubConnectionString": $hubendpoint,
+    "EventHubSendAppSetting": $sendAppSetting,
     "WebPubSubConnectionString": "$psendpoint",
     "iot_hub_name": "$hubname",
     "event_hub_name": "$eventhubName",
