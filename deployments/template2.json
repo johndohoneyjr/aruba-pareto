@@ -3,31 +3,35 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sites_pareto_anywhere_name": {
-            "defaultValue": "pareto-anywhere-test",
+            "defaultValue": "aruba-pareto-poc-function",
             "type": "string"
         },
         "iot_hub_name": {
-            "defaultValue": "pareto-anywhere-iot-hub-test",
+            "defaultValue": "aruba-pareto-poc-iot-hub",
             "type": "string"
         },
         "namespaces_events_name": {
-            "defaultValue": "pareto-anywhere-events-test",
+            "defaultValue": "aruba-pareto-poc-events",
             "type": "string"
         },
+        "event_hub_name": {
+            "defaultValue": "aruba-pareto-poc-event-hub",
+            "type": "string"
+        }
         "WebPubSub_name": {
-            "defaultValue": "pareto-anywhere-wps-test",
+            "defaultValue": "aruba-pareto-poc-wps",
             "type": "string"
         },
         "serverfarms_name": {
-            "defaultValue": "ASP-paretoanywhereazure-b466-test",
+            "defaultValue": "ASP-arubaparetopoc-9af8",
             "type": "string"
         },
         "storageAccounts_name": {
-            "defaultValue": "paretoanywherestoragetest",
+            "defaultValue": "arubaparetopocsa",
             "type": "string"
         },
         "provisioningServices_name": {
-            "defaultValue": "pareto-anywhere-provisioning-test",
+            "defaultValue": "aruba-pareto-poc-provisioning",
             "type": "string"
         }
     },
@@ -274,7 +278,7 @@
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_events_name'), '/pareto-anywhere-test-event-hub')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/', parameters('event_hub_name'))]",
             "location": "canadaeast",
             "dependsOn": [
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
@@ -494,7 +498,7 @@
                 "acrUseManagedIdentityCreds": false,
                 "logsDirectorySizeLimit": 35,
                 "detailedErrorLoggingEnabled": false,
-                "publishingUsername": "$pareto-anywhere-test",
+                "publishingUsername": "$aruba-pareto-poc-function",
                 "scmType": "None",
                 "use32BitWorkerProcess": false,
                 "webSocketsEnabled": false,
@@ -620,17 +624,17 @@
                 "[resourceId('Microsoft.Web/sites', parameters('sites_pareto_anywhere_name'))]"
             ],
             "properties": {
-                "siteName": "pareto-anywhere-test",
+                "siteName": "[parameters('sites_pareto_anywhere_name')]",
                 "hostNameType": "Verified"
             }
         },
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationrules",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_events_name'), '/pareto-anywhere-test-event-hub/send')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/', parameters('event_hub_name'), '/send')]",
             "location": "canadaeast",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), 'pareto-anywhere-test-event-hub')]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), parameters('event_hub_name'))]",
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {
@@ -642,10 +646,10 @@
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
             "apiVersion": "2022-10-01-preview",
-            "name": "[concat(parameters('namespaces_events_name'), '/pareto-anywhere-test-event-hub/$Default')]",
+            "name": "[concat(parameters('namespaces_events_name'), '/', parameters('event_hub_name'), '/$Default')]",
             "location": "canadaeast",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), 'pareto-anywhere-test-event-hub')]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_events_name'), parameters('event_hub_name'))]",
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_events_name'))]"
             ],
             "properties": {}
@@ -789,7 +793,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_name'), '/default/pareto-anywhere-test83c0')]",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/aruba-pareto-poc-functiona1e8')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_name'), 'default')]",
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"

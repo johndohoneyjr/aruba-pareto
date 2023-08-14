@@ -11,6 +11,9 @@
         "namespaces_events_name": {
             "value": null
         },
+        "event_hub_name": {
+            "value": null
+        },
         "WebPubSub_name": {
             "value": null
         },
