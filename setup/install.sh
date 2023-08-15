@@ -58,9 +58,26 @@ cat <<EOF > ./local.settings.json
     "EventHubConnectionString": $hubendpoint,
     "EventHubSendAppSetting": $sendAppSetting,
     "WebPubSubConnectionString": "$psendpoint",
-    "iot_hub_name": "$hubname",
+    "iot_hub_name": $hubname,
     "event_hub_name": "$eventhubName",
     "web_pub_sub_hub_name": "$pubsubName"
   }
 }
 EOF
+
+
+
+# Function app and storage account names must be unique.
+premiumPlan="pareto-premium-plan-$RANDOM"
+functionApp="pareto-function-$$RANDOM"
+skuPlan="EP1"
+functionsVersion="4"
+
+
+# Create a Premium plan
+echo "Creating $premiumPlan"
+az functionapp plan create --name $premiumPlan --resource-group "iot-pareto" --location "WestUS" --sku $skuPlan
+
+# Create a Function App
+echo "Creating $functionApp"
+az functionapp create --name $functionApp --storage-account $saName --plan $premiumPlan --resource-group "iot-pareto" --functions-version $functionsVersion
