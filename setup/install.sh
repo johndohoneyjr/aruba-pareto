@@ -41,7 +41,7 @@ export psendpoint=$(az webpubsub key show  --name "pareto-anywhere"  --resource-
 az eventhubs eventhub authorization-rule keys list --resource-group "iot-pareto" --namespace-name $namespaceName --eventhub-name $eventhubName --name aruba-hub-rule
 
 export saName="arubastorage$RANDOM"
-az storage account create --name $saName --resource-group "iot-pareto" --sku Standard_LRS --kind BlobStorage --access-tier Hot
+az storage account az storage account create --name $saName --resource-group "iot-pareto" --sku Standard_LRS --location westus
 
 storageConnection=$(az storage account show-connection-string --name $saName --resource-group "iot-pareto" --output tsv)
 
@@ -82,3 +82,4 @@ az functionapp plan create --name $premiumPlan --resource-group "iot-pareto" --l
 # Create a Function App
 echo "Creating $functionApp"
 az functionapp create --name $functionApp --storage-account $saName --plan $premiumPlan --resource-group "iot-pareto" --functions-version $functionsVersion
+
