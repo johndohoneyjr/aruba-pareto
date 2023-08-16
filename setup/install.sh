@@ -49,6 +49,14 @@ sendAppSetting=$(az eventhubs eventhub authorization-rule keys list --resource-g
 
 psendpoint=$(az webpubsub key show  --name "pareto-anywhere"  --resource-group "iot-pareto" --query primaryConnectionString --output tsv)
 
+az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "AzureWebJobsStorage=$storageConnection"
+az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "EventHubConnectionString=$hubendpoint"
+az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "EventHubSendAppSetting=$sendAppSetting"
+az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "WebPubSubConnectionString=$psendpoint"
+az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "iot_hub_name=$hubname"
+az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "event_hub_name=$eventhubName"
+az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "web_pub_sub_hub_name=$pubsubName"
+
 # Stitch together the resource file
 cat <<EOF > ./local.settings.json
 {
@@ -70,9 +78,10 @@ EOF
 
 # Function app and storage account names must be unique.
 premiumPlan="pareto-premium-plan-$RANDOM"
-functionApp="pareto-function-$$RANDOM"
+functionApp="pareto-function-$RANDOM"
 skuPlan="EP1"
 functionsVersion="4"
+runtime="node"
 
 
 # Create a Premium plan
@@ -81,5 +90,16 @@ az functionapp plan create --name $premiumPlan --resource-group "iot-pareto" --l
 
 # Create a Function App
 echo "Creating $functionApp"
-az functionapp create --name $functionApp --storage-account $saName --plan $premiumPlan --resource-group "iot-pareto" --functions-version $functionsVersion
+az functionapp create --name $functionApp --storage-account $saName --plan $premiumPlan --resource-group "iot-pareto" --os-type Linux --runtime $runtime  --functions-version $functionsVersion
+zip -r myupload.zip . -x *.DS_Store
 
+  az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "AzureWebJobsStorage=$storageConnection
+  az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "EventHubConnectionString=$hubendpoint"
+  az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "EventHubSendAppSetting=$sendAppSetting"
+  az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "WebPubSubConnectionString=$psendpoint"
+  az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "iot_hub_name=$hubname"
+  az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "event_hub_name=$eventhubName"
+  az functionapp config appsettings set --name $functionApp --resource-group "iot-pareto" --settings "web_pub_sub_hub_name=$pubsubName"
+
+
+az functionapp deployment source config-zip  -g "iot-pareto"  -n $functionApp --src ./myupload.zip
